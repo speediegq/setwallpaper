@@ -27,14 +27,17 @@ if [[ "$wallpaperdirectory" = "" ]]; then
 	echo $wallpaperdirectory > $HOME/.config/setwallpaper/wallpaper-directory
 fi
 
+clear
+
 if [[ "$showhelpfultips" = "" ]]; then
-	echo -n "Show helpful tips: true/false"
+	echo -n "Show helpful tips: true/false" && read showhelpfultips
+	echo $showhelpfultips > $HOME/.config/setwallpaper/showtips
 fi
 
 if [[ -d $wallpaperdirectory ]]; then
 	echo "$wallpaperdirectory is valid"
 else
-	echo "$wallpaper directory is not a valid directory" && rm $HOME/.config/setwallpaper/wallpaper-directory && exit
+	echo "$wallpaper directory is not a valid directory" && rm $HOME/.config/setwallpaper/wallpaper-directory && clear && $goback && exit
 fi
 
 cd $wallpaperdirectory && ls -a --color=auto
@@ -51,6 +54,8 @@ if [[ $setwallpaper =~ "set" ]]; then
 	setwallpaper="$(echo $setwallpaper | sed 's/ set//')" && echo "Using $setwallpaper" && dontset="false"
 fi
 
+clear
+
 echo -n "How would you like to set it? fill, tile, center, scale, max or no to exit: " && read scale
 
 if [[ $scale = "fill" ]]; then
@@ -66,6 +71,8 @@ elif [[ $scale = "max" ]]; then
 elif [[ $scale = "no" ]]; then
     echo "exiting.." && exit
 fi
+
+clear
 
 feh $scalecmd $wallpaperdirectory/$setwallpaper
 
