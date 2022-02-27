@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# setwallpaper by speedie
+
+goback="$(echo ${0})"
+
+if [[ $goback =~ "./" ]]; then
+	echo "Please move me to /usr/bin or /usr/local/bin" && exit
+fi
+
+if [[ -f "/usr/bin/feh" ]]; then
+	echo "Feh is installed!"
+else
+	echo "Feh is not installed. Please install it" && exit
+fi
+
+mkdir -pv $HOME/.config/setwallpaper && mkdir -pv /usr/local/bin && touch $HOME/.config/setwallpaper/wallpaper-directory && touch $HOME/.config/setwallpaper/showtips
+
+clear
+
+wallpaperdirectory="$(cat $HOME/.config/setwallpaper/wallpaper-directory)"
+showhelpfultips="cat $HOME/.config/setwallpaper/showtips"
+
+if [[ "$wallpaperdirectory" = "" ]]; then
+	echo "It seems you haven't specified a path to your beautiful wallpaper collection."
+	echo -n "Please enter a valid directory on your system where your amazing wallpapers are stored: " && read wallpaperdirectory 
+	echo $wallpaperdirectory > $HOME/.config/setwallpaper/wallpaper-directory
+fi
+
+if [[ "$showhelpfultips" = "" ]]; then
+	echo -n "Show helpful tips: true/false"
+fi
+
+if [[ -d $wallpaperdirectory ]]; then
+	echo "$wallpaperdirectory is valid"
+else
+	echo "$wallpaper directory is not a valid directory" && rm $HOME/.config/setwallpaper/wallpaper-directory && exit
+fi
+
+cd $wallpaperdirectory && ls -a --color=auto
+
+echo -n "Enter the wallpaper you wanna preview. Type the file name + set to set it as your wallpaper: " && read setwallpaper
+
+if [[ $setwallpaper =~ "set" ]]; then
+	set=true
+else
+	feh $setwallpaper && clear && $goback && exit # Preview
+fi
+
+if [[ $setwallpaper =~ "set" ]]; then
+	setwallpaper="$(echo $setwallpaper | sed 's/ set//')" && echo "Using $setwallpaper" && dontset="false"
+fi
+
+echo -n "How would you like to set it? fill, tile, center, scale, max or no to exit: " && read scale
+
+if [[ $scale = "fill" ]]; then
+	scalecmd="--bg-fill"
+elif [[ $scale = "tile" ]]; then
+	scalecmd="--bg-tile"
+elif [[ $scale = "center" ]]; then
+	scalecmd="--bg-center"
+elif [[ $scale = "scale" ]]; then
+	scalecmd="--bg-scale"
+elif [[ $scale = "max" ]]; then
+	scalecmd="--bg-max"
+elif [[ $scale = "no" ]]; then
+    echo "exiting.." && exit
+fi
+
+feh $scalecmd $wallpaperdirectory/$setwallpaper
+
+echo "feh $scalecmd $wallpaperdirectory/$setwallpaper" > /usr/local/bin/setwallpaper-wm && chmod +x /usr/local/bin/setwallpaper-wm || echo "I do not have permission to read and write /usr/local/bin/setwallpaper-wm, please fix that!" && exit
+
+if [[ $showhelpfultips = "true" ]]; then
+	echo "TIP: Add /usr/local/bin/setwallpaper-wm & to ~/.xinitrc BEFORE your window manager to set your wallpaper when you startx" && echo "Have a good day!"
+fi
+
+echo "You may need to restart your X session for the wallpaper to apply!"
+
+exit
+
+
+
+
+
+
