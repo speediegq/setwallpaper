@@ -44,12 +44,6 @@ cd $wallpaperdirectory && ls -a --color=auto
 
 echo -n "Enter the wallpaper you wanna preview. Type the file name + set to set it as your wallpaper: " && read setwallpaper
 
-if [[ "$(ls)" =~ "$setwallpaper" ]]; then
-        validfile=true
-else
-        validfile=false ; clear && $goback && exit
-fi
-
 if [[ $setwallpaper =~ "set" ]]; then
 	set=true
 else
