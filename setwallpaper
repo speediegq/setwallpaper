@@ -14,7 +14,7 @@ else
 	echo "Feh is not installed. Please install it" && exit
 fi
 
-mkdir -pv $HOME/.config/setwallpaper && mkdir -pv /usr/local/bin && touch $HOME/.config/setwallpaper/wallpaper-directory && touch $HOME/.config/setwallpaper/showtips
+mkdir -pv $HOME/.config/setwallpaper && mkdir -pv /usr/local/bin && touch $HOME/.config/setwallpaper/wallpaper-directory
 
 clear
 
@@ -43,6 +43,12 @@ fi
 cd $wallpaperdirectory && ls -a --color=auto
 
 echo -n "Enter the wallpaper you wanna preview. Type the file name + set to set it as your wallpaper: " && read setwallpaper
+
+if [[ "$(ls)" =~ "$setwallpaper" ]];
+        validfile=true
+else
+        validfile=false ; clear && $goback && exit
+fi
 
 if [[ $setwallpaper =~ "set" ]]; then
 	set=true
