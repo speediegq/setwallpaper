@@ -2,9 +2,7 @@
 
 # setwallpaper by speedie
 
-goback="$(echo ${0})"
-
-if [[ $goback =~ "./" ]]; then
+if [[ $(echo ${0}) =~ "./" ]]; then
 	echo "Please move me to /usr/bin or /usr/local/bin" && exit
 fi
 
@@ -29,15 +27,10 @@ fi
 
 clear
 
-if [[ "$showhelpfultips" = "" ]]; then
-	echo -n "Show helpful tips: true/false" && read showhelpfultips
-	echo $showhelpfultips > $HOME/.config/setwallpaper/showtips
-fi
-
 if [[ -d $wallpaperdirectory ]]; then
 	echo "$wallpaperdirectory is valid"
 else
-	echo "$wallpaper directory is not a valid directory" && rm $HOME/.config/setwallpaper/wallpaper-directory && clear && $goback && exit
+	echo "$wallpaper directory is not a valid directory" && rm $HOME/.config/setwallpaper/wallpaper-directory && clear && $(echo ${0}) && exit
 fi
 
 cd $wallpaperdirectory && ls -a --color=auto
@@ -47,7 +40,7 @@ echo -n "Enter the wallpaper you wanna preview. Type the file name + set to set 
 if [[ $setwallpaper =~ "set" ]]; then
 	set=true
 else
-	feh $setwallpaper && clear && $goback && exit # Preview
+	feh $setwallpaper && clear && $(echo ${0}) && exit # Preview
 fi
 
 if [[ $setwallpaper =~ "set" ]]; then
@@ -74,15 +67,11 @@ fi
 
 clear
 
-feh $scalecmd $wallpaperdirectory/$setwallpaper || $goback && exit
+feh $scalecmd $wallpaperdirectory/$setwallpaper || $(echo ${0}) && exit
 
 echo "feh $scalecmd $wallpaperdirectory/$setwallpaper" > /usr/local/bin/setwallpaper-wm && chmod +x /usr/local/bin/setwallpaper-wm || echo "I do not have permission to read and write /usr/local/bin/setwallpaper-wm, please fix that!" && exit
 
-if [[ $showhelpfultips = "true" ]]; then
-	echo "TIP: Add /usr/local/bin/setwallpaper-wm & to ~/.xinitrc BEFORE your window manager to set your wallpaper when you startx" && echo "Have a good day!"
-fi
-
-echo "You may need to restart your X session for the wallpaper to apply!"
+echo "Set your wallpaper!"
 
 exit
 
