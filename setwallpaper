@@ -5,7 +5,7 @@
 if [[ -f "/usr/local/bin/setwallpaper-wm" ]]; then
         echo "Script exists"
 else
-        mkdir /usr/local/bin ; touch /usr/local/bin/setwallpaper-wm ; chmod +x /usr/local/bin/setwallpaper-wm ; chmod 777 /usr/local/bin/setwallpaper-wm || echo "Please run me as root!" && exit
+        mkdir -pv /usr/local/bin ; touch /usr/local/bin/setwallpaper-wm ; chmod +x /usr/local/bin/setwallpaper-wm ; chmod 777 /usr/local/bin/setwallpaper-wm || echo "Please run me as root!" && exit
 fi
 
 if [[ $(echo ${0}) =~ "./" ]]; then
