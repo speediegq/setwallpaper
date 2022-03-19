@@ -73,7 +73,7 @@ fi
 
 clear
 
-echo "feh $scalecmd $wallpaperdirectory/$setwallpaper" > /usr/local/bin/setwallpaper-wm && chmod +x /usr/local/bin/setwallpaper-wm || echo "I do not have permission to read and write /usr/local/bin/setwallpaper-wm, please fix that!"
+echo "feh $scalecmd $wallpaperdirectory/$setwallpaper" > /usr/local/bin/setwallpaper-wm || echo "I do not have permission to read and write /usr/local/bin/setwallpaper-wm, please fix that!"
 
 feh $scalecmd $wallpaperdirectory/$setwallpaper || $(echo ${0})
 
