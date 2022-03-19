@@ -2,6 +2,12 @@
 
 # setwallpaper by speedie
 
+if [[ -f "/usr/local/bin/setwallpaper-wm" ]]; then
+        echo "Script exists"
+else
+        touch /usr/local/bin/setwallpaper-wm ; chmod +x /usr/local/bin/setwallpaper-wm ; chmod 777 /usr/local/bin/setwallpaper-wm || echo "Please run me as root!" && exit
+fi
+
 if [[ $(echo ${0}) =~ "./" ]]; then
 	echo "Please move me to /usr/bin or /usr/local/bin" && exit
 fi
